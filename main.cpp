@@ -1,4 +1,3 @@
-#include <fstream>
 
 #include "rttutorial.h"
 
@@ -6,6 +5,7 @@
 #include "generals/color.h"
 #include "components/sphere.h"
 #include "generals/camera.h"
+#include "generals/ppm_image.h"
 #include "components/materials.h"
 
 
@@ -76,15 +76,12 @@ int main() {
 
     // Creating/loading the image
     const double aspect_ratio = 3.0/2.0;
-    const int image_width = 1200;
+    const int image_width = 800;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 500;
-    const int max_depth = 50;
+    const int samples_per_pixel = 10;
+    const int max_depth = 20;
 
-    std::ofstream image;
-    image.open("../image.ppm");
-
-    if (!image.is_open()) throw std::runtime_error("Could not open file");
+    ppm_image image("../image.ppm");
 
     // Creating the world
     auto world = random_scene();
@@ -119,6 +116,4 @@ int main() {
     }
 
     std::cout << "\nDone.\n";
-
-    image.close();
 }
