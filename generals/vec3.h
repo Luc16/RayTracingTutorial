@@ -57,6 +57,18 @@ public:
         return (fabs(e[0]) < s) && (fabs(e[1]) < s) && (fabs(e[2]) < s);
     }
 
+    inline double dot(const vec3 &vec) {
+        return e[0] * vec.e[0]
+               + e[1] * vec.e[1]
+               + e[2] * vec.e[2];
+    }
+
+    inline vec3 cross(const vec3 &vec) {
+        return {e[1] * vec.e[2] - e[2] * vec.e[1],
+                e[2] * vec.e[0] - e[0] * vec.e[2],
+                e[0] * vec.e[1] - e[1] * vec.e[0]};
+    }
+
 public:
     double e[3];
 };
