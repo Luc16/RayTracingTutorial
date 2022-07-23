@@ -59,14 +59,17 @@ hittable_list simple_scene() {
     hittable_list world;
     auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
     world.add(make_shared<sphere>(point3(0,-1000.5,-1), 1000, ground_material));
-    auto triangle_material = make_shared<lambertian>(color(1.0, 0.0, 0.0));
+    auto triangle_material1 = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0);
     world.add(
             make_shared<triangle>(
-                point3(-0.2,-0.25,-2),
-                point3(0,0.2,-2),
-                point3(0.2,-0.25,-2), triangle_material
+                point3(-0.4,-0.2,-6),
+                point3(0.4,0.4,0),
+                point3(0.4,-0.25,0), triangle_material1
             )
     );
+
+    auto sphere_material = make_shared<lambertian>(color(0.5, 0.0, 1.0));
+    world.add(make_shared<sphere>(point3(-.08, -.08, -2.5), 0.05, sphere_material));
 
     return world;
 }

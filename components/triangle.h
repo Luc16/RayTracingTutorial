@@ -56,7 +56,7 @@ bool triangle::hit(const ray &r, double t_min, double t_max, hit_record &rec) co
 
     rec.t = t;
     rec.p = intersection;
-    rec.set_face_normal(r, normal);
+    rec.set_face_normal(r, unit_vector(normal));
     rec.mat_ptr = mat_ptr;
 
     return true;
