@@ -55,21 +55,39 @@ hittable_list random_scene() {
     return world;
 }
 
-hittable_list simple_scene() {
+hittable_list triangle_example() {
     hittable_list world;
     auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
-    world.add(make_shared<sphere>(point3(0,-1000.5,-1), 1000, ground_material));
-    auto triangle_material1 = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0);
-    world.add(
-            make_shared<triangle>(
-                point3(-0.4,-0.2,-6),
-                point3(0.4,0.4,0),
-                point3(0.4,-0.25,0), triangle_material1
-            )
-    );
+    world.add(make_shared<sphere>(point3(0,-1,-1000.5), 900, ground_material));
+    // triangles
+    {
+        auto triangle_material1 = make_shared<metal>(color(0.7, 0.6, 0.5), 0);
+        auto xs = point3(2.1,2.2,0.8);
+        auto ys = point3(0.8,2.2,2.1);
+        auto zs = point3(0,2,0);
 
-    auto sphere_material = make_shared<lambertian>(color(0.5, 0.0, 1.0));
-    world.add(make_shared<sphere>(point3(-.08, -.08, -2.5), 0.05, sphere_material));
+        auto create_corner_triangle = [triangle_material1](point3 xs, point3 ys, point3 zs) {
+            return make_shared<triangle>(
+                    point3(xs.x(),ys.x(),zs.x()),
+                    point3(xs.y(),ys.y(),zs.y()),
+                    point3(xs.z(),ys.z(),zs.z()), triangle_material1
+                );
+        };
+        world.add(create_corner_triangle(-xs, -ys, zs));
+        world.add(create_corner_triangle(xs, -ys, zs));
+        world.add(create_corner_triangle(-xs, ys, zs));
+        world.add(create_corner_triangle(xs, ys, zs));
+
+    }
+
+    //spheres'
+    {
+        auto sphere_material = make_shared<metal>(color(0.7, 0.8, 0.9), 0.0);
+        world.add(make_shared<sphere>(point3(0,0,0), 0.5, sphere_material));
+        auto sphere_material2 = make_shared<lambertian>(color(1, 1, 0));
+        world.add(make_shared<sphere>(point3(-110,0,110), 100, sphere_material2));
+
+    }
 
     return world;
 }
@@ -77,17 +95,17 @@ hittable_list simple_scene() {
 int main() {
 
     // Creating/loading the image
-    const double aspect_ratio = 3.0/2.0;
-    const int image_width = 300;
-    const int samples_per_pixel = 100;
-    const int max_depth = 50;
+    const double aspect_ratio = 1;
+    const int image_width = 800;
+    const int samples_per_pixel = 300;
+    const int max_depth = 100;
 
     // Creating the world
-    auto world = simple_scene();
+    auto world = triangle_example();
 
     // Camera
 
-    point3 lookfrom(0,0,0);
+    point3 lookfrom(0,0,16);
     point3 lookat(0,0,-1);
     vec3 vup(0,1,0);
     auto dist_to_focus = 10.0;
