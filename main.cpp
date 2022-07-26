@@ -6,10 +6,11 @@
 #include "generals/camera.h"
 #include "raytracer.h"
 
-
-
-hittable_list random_scene() {
+hittable_list random_scene(point3& lookfrom, point3& lookat) {
     hittable_list world;
+
+    lookfrom = point3(13,2,3);
+    lookat = point3(0,0,0);
 
     auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
     world.add(make_shared<sphere>(point3(0,-1000,0), 1000, ground_material));
@@ -58,8 +59,11 @@ hittable_list random_scene() {
     return world;
 }
 
-hittable_list triangle_example() {
+hittable_list triangle_scene(point3& lookfrom, point3& lookat) {
     hittable_list world;
+    lookfrom = point3(0,0,16);
+    lookat = point3(0,0,-1);
+
     auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
     world.add(make_shared<sphere>(point3(0,-1,-1000.5), 900, ground_material));
     // triangles
@@ -95,6 +99,22 @@ hittable_list triangle_example() {
     return world;
 }
 
+hittable_list single_ball_scene(point3& lookfrom, point3& lookat) {
+    hittable_list world;
+
+    lookfrom = point3(0,0,4);
+    lookat = point3(0,0,-1);
+
+    auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
+    auto center = point3(0, 0, 0);
+    auto center2 = center + vec3(0, random_double(0,.5), 0);
+    world.add(make_shared<moving_sphere>(
+            center, center2, 0.0, 1.0, 0.2, ground_material));
+
+    return world;
+
+};
+
 int main() {
 
     // Creating/loading the image
@@ -103,13 +123,12 @@ int main() {
     const int samples_per_pixel = 50;
     const int max_depth = 50;
 
-    // Creating the world
-    auto world = random_scene();
-
     // Camera
 
-    point3 lookfrom(13,2,3);
-    point3 lookat(0,0,0);
+    point3 lookfrom;
+    point3 lookat;
+    auto world = single_ball_scene(lookfrom, lookat);
+
     vec3 vup(0,1,0);
     auto dist_to_focus = 10.0;
     auto aperture = 0.1;
