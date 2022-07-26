@@ -6,7 +6,7 @@
 #include "generals/ppm_image.h"
 #include "generals/camera.h"
 #include "components/hittable_list.h"
-#include "components/materials.h"
+#include "components/materials_and_shapes.h"
 #include <iostream>
 
 class raytracer {

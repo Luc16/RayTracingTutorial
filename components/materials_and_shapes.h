@@ -6,6 +6,9 @@
 #include "metal.h"
 #include "dieletric.h"
 #include "../generals/material.h"
+#include "sphere.h"
+#include "triangle.h"
+#include "moving_sphere.h"
 
 
 #endif //MATERIALS_H
