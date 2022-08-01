@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/luc/CLionProjects/RayTracingTutorial/build",
+  "command": "/usr/bin/g++   -g -o CMakeFiles/RayTracingTutorial.dir/main.cpp.o -c /home/luc/CLionProjects/RayTracingTutorial/main.cpp",
+  "file": "/home/luc/CLionProjects/RayTracingTutorial/main.cpp"
+}
+]

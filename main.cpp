@@ -107,7 +107,7 @@ hittable_list single_ball_scene(point3& lookfrom, point3& lookat) {
 
     auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
     auto center = point3(0, 0, 0);
-    auto center2 = center + vec3(0, random_double(0,.5), 0);
+    auto center2 = center + vec3(0, random_double(0,.8), 0);
     world.add(make_shared<moving_sphere>(
             center, center2, 0.0, 1.0, 0.2, ground_material));
 
