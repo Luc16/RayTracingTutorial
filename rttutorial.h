@@ -18,7 +18,6 @@ using std::sqrt;
 
 const double infinity = std::numeric_limits<double>::infinity();
 const double pi = 3.1415926535897932385;
-const float real_random = true;
 
 
 // Utility Functions
@@ -34,22 +33,21 @@ inline double degrees_to_radians(double degrees) {
 }
 
 inline double random_double(double min, double max) {
-    if (real_random){
         static std::random_device rd;
         static std::mt19937 gen(rd());
         static std::uniform_real_distribution<double> dis(min, max);
         return dis(gen);
-    } else {
-        static std::uniform_real_distribution<double> distribution(0.0, 1.0);
-        static std::mt19937 generator;
-        return distribution(generator);
-    }
-
-
 }
 
 inline double random_double(){
     return random_double(0.0, 1.0);
+}
+
+inline int random_int(int min, int max) {
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_int_distribution<int> dis(min, max);
+    return dis(gen);
 }
 
 

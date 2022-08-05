@@ -18,6 +18,7 @@ public:
     triangle(std::vector<point3> verts, shared_ptr<material> m): vertices(std::move(verts)), mat_ptr(std::move(m)) {};
 
     bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const override;
+    bool bounding_box(double time0, double time1, aabb &output_box) const override;
 
 
 public:
@@ -61,6 +62,26 @@ bool triangle::hit(const ray &r, double t_min, double t_max, hit_record &rec) co
 
     return true;
 
+}
+
+bool triangle::bounding_box(double time0, double time1, aabb &output_box) const {
+    auto max = [](double a, double b, double c) { return fmax(a, fmax(b, c)); };
+    auto min = [](double a, double b, double c) { return fmin(a, fmin(b, c)); };
+
+    point3 maximum = point3(
+            max(vertices[0].x(), vertices[1].x(), vertices[2].x()),
+            max(vertices[0].y(), vertices[1].y(), vertices[2].y()),
+            max(vertices[0].z(), vertices[1].z(), vertices[2].z())
+            );
+    point3 minimum = point3(
+            min(vertices[0].x(), vertices[1].x(), vertices[2].x()),
+            min(vertices[0].y(), vertices[1].y(), vertices[2].y()),
+            min(vertices[0].z(), vertices[1].z(), vertices[2].z())
+            );
+
+    output_box = aabb(minimum, maximum);
+
+    return true;
 }
 
 #endif //TRIANGLE_H

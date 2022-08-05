@@ -12,6 +12,7 @@ public:
     sphere(point3 c, double r, shared_ptr<material> m): center(c), radius(r), mat_ptr(std::move(m)) {};
 
     bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const override;
+    bool bounding_box(double time0, double time1, aabb &output_box) const override;
 
 
 public:
@@ -44,6 +45,13 @@ bool sphere::hit(const ray &r, double t_min, double t_max, hit_record &rec) cons
 
     return true;
 
+}
+
+bool sphere::bounding_box(double time0, double time1, aabb &output_box) const {
+    auto radius_point = point3(radius, radius, radius);
+    output_box = aabb(center - radius_point,center + radius_point);
+
+    return true;
 }
 
 #endif //SPHERE_H

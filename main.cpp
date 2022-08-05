@@ -6,11 +6,11 @@
 #include "generals/camera.h"
 #include "raytracer.h"
 
-hittable_list random_scene(point3& lookfrom, point3& lookat) {
+hittable_list random_scene(point3& out_lookfrom, point3& out_lookat) {
     hittable_list world;
 
-    lookfrom = point3(13,2,3);
-    lookat = point3(0,0,0);
+    out_lookfrom = point3(13,2,3);
+    out_lookat = point3(0,0,0);
 
     auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
     world.add(make_shared<sphere>(point3(0,-1000,0), 1000, ground_material));
@@ -59,10 +59,10 @@ hittable_list random_scene(point3& lookfrom, point3& lookat) {
     return world;
 }
 
-hittable_list triangle_scene(point3& lookfrom, point3& lookat) {
+hittable_list triangle_scene(point3& out_lookfrom, point3& out_lookat) {
     hittable_list world;
-    lookfrom = point3(0,0,16);
-    lookat = point3(0,0,-1);
+    out_lookfrom = point3(0,0,16);
+    out_lookat = point3(0,0,-1);
 
     auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
     world.add(make_shared<sphere>(point3(0,-1,-1000.5), 900, ground_material));
@@ -99,11 +99,11 @@ hittable_list triangle_scene(point3& lookfrom, point3& lookat) {
     return world;
 }
 
-hittable_list single_ball_scene(point3& lookfrom, point3& lookat) {
+hittable_list single_ball_scene(point3& out_lookfrom, point3& out_lookat) {
     hittable_list world;
 
-    lookfrom = point3(0,0,4);
-    lookat = point3(0,0,-1);
+    out_lookfrom = point3(0,0,4);
+    out_lookat = point3(0,0,-1);
 
     auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
     auto center = point3(0, 0, 0);
@@ -127,7 +127,7 @@ int main() {
 
     point3 lookfrom;
     point3 lookat;
-    auto world = single_ball_scene(lookfrom, lookat);
+    auto world = random_scene(lookfrom, lookat);
 
     vec3 vup(0,1,0);
     auto dist_to_focus = 10.0;

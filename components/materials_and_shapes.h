@@ -9,6 +9,7 @@
 #include "sphere.h"
 #include "triangle.h"
 #include "moving_sphere.h"
+#include "aabb.h"
 
 
 #endif //MATERIALS_H

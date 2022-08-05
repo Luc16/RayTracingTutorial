@@ -7,6 +7,7 @@
 #include "generals/camera.h"
 #include "components/hittable_list.h"
 #include "components/materials_and_shapes.h"
+#include "components/bvh.h"
 #include <iostream>
 
 class raytracer {
@@ -23,12 +24,12 @@ public:
             image(imageFile),
             cam(c),
             world(objs),
+            world_tree(bvh_node(objs, c.time0, c.time1)),
             aspect_ratio(ap),
             image_width(width),
             samples_per_pixel(samples_per_pxl),
             max_depth(max_depth),
             image_height(static_cast<int>(image_width / aspect_ratio)) {
-
     }
 
     void create_image(){
@@ -79,11 +80,13 @@ private:
     color ray_color(const ray& r, int depth){
         hit_record rec;
         if (depth <= 0) return {0, 0, 0};
-        if (world.hit(r, 0.001, infinity, rec)) {
+        if (world_tree.hit(r, 0.001, infinity, rec)) {
             ray scattered;
             color attenuation;
-            if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
+            if (rec.mat_ptr->scatter(r, rec, attenuation, scattered)) {
+
                 return attenuation * ray_color(scattered, depth - 1);
+            }
             return {0, 0, 0};
         }
 
@@ -101,6 +104,7 @@ private:
     const int samples_per_pixel;
     const int max_depth;
     hittable_list world;
+    bvh_node world_tree;
 };
 
 #endif //RAYTRACER_H
