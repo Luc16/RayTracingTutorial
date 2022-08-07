@@ -104,11 +104,11 @@ hittable_list simple_scene(point3& out_lookfrom, point3& out_lookat) {
     out_lookfrom = point3(13,2,3);
     out_lookat = point3(0,0,0);
 
-    auto checker1 = make_shared<checker_texture>(color(0.2, 0.3, 0.1), color(0.9, 0.9, 0.9));
-    auto checker2 = make_shared<checker_texture>(color(0.8, 0.3, 0.1), color(0.9, 0.9, 0.9));
+    auto ground_tex = make_shared<checker_texture>(color(0.2, 0.3, 0.1), color(0.9, 0.9, 0.9));
+    world.add(make_shared<sphere>(point3(0,-1000,0), 1000, make_shared<lambertian>(ground_tex)));
 
-    world.add(make_shared<sphere>(point3(0,-10, 0), 10, make_shared<lambertian>(checker1)));
-    world.add(make_shared<sphere>(point3(0, 10, 0), 10, make_shared<lambertian>(checker2)));
+    auto tex = make_shared<noise_texture>(4);
+    world.add(make_shared<sphere>(point3(0, 2, 0), 2, make_shared<lambertian>(tex)));
 
     return world;
 

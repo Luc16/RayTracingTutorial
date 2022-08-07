@@ -13,6 +13,7 @@
 #include "hittables/bvh.h"
 #include "textures/solid_texture.h"
 #include "textures/checker_texture.h"
+#include "textures/noise_texture.h"
 
 
 #endif //COMPONENTS_H
