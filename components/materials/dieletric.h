@@ -1,7 +1,7 @@
 #ifndef DIELETRIC_H
 #define DIELETRIC_H
 
-#include "../generals/material.h"
+#include "../../generals/material.h"
 
 class dielectric: public material {
 

@@ -1,7 +1,7 @@
 #ifndef METAL_H
 #define METAL_H
 
-#include "../generals/material.h"
+#include "../../generals/material.h"
 
 class metal : public material {
 public:

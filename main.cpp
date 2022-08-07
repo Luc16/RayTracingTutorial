@@ -1,8 +1,7 @@
 
 #include "rttutorial.h"
 
-#include "components/hittable_list.h"
-#include "components/materials_and_shapes.h"
+#include "components/components.h"
 #include "generals/camera.h"
 #include "raytracer.h"
 
@@ -99,17 +98,17 @@ hittable_list triangle_scene(point3& out_lookfrom, point3& out_lookat) {
     return world;
 }
 
-hittable_list single_ball_scene(point3& out_lookfrom, point3& out_lookat) {
+hittable_list simple_scene(point3& out_lookfrom, point3& out_lookat) {
     hittable_list world;
 
-    out_lookfrom = point3(0,0,4);
-    out_lookat = point3(0,0,-1);
+    out_lookfrom = point3(13,2,3);
+    out_lookat = point3(0,0,0);
 
-    auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
-    auto center = point3(0, 0, 0);
-    auto center2 = center + vec3(0, random_double(0,.8), 0);
-    world.add(make_shared<moving_sphere>(
-            center, center2, 0.0, 1.0, 0.2, ground_material));
+    auto checker1 = make_shared<checker_texture>(color(0.2, 0.3, 0.1), color(0.9, 0.9, 0.9));
+    auto checker2 = make_shared<checker_texture>(color(0.8, 0.3, 0.1), color(0.9, 0.9, 0.9));
+
+    world.add(make_shared<sphere>(point3(0,-10, 0), 10, make_shared<lambertian>(checker1)));
+    world.add(make_shared<sphere>(point3(0, 10, 0), 10, make_shared<lambertian>(checker2)));
 
     return world;
 
@@ -127,7 +126,7 @@ int main() {
 
     point3 lookfrom;
     point3 lookat;
-    auto world = random_scene(lookfrom, lookat);
+    auto world = simple_scene(lookfrom, lookat);
 
     vec3 vup(0,1,0);
     auto dist_to_focus = 10.0;

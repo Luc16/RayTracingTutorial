@@ -3,8 +3,8 @@
 
 #include <utility>
 
-#include "../generals/hittable.h"
-#include "../generals/vec3.h"
+#include "../../generals/hittable.h"
+#include "../../generals/vec3.h"
 
 class triangle: public hittable {
 public:

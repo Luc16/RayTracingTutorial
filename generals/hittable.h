@@ -3,7 +3,7 @@
 
 #include "ray.h"
 #include "../rttutorial.h"
-#include "../components/aabb.h"
+#include "../components/hittables/aabb.h"
 
 class material;
 
@@ -11,6 +11,7 @@ struct hit_record {
     point3 p;
     vec3 normal;
     double t;
+    double u, v;
     shared_ptr<material> mat_ptr;
     bool front_face;
 

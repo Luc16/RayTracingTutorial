@@ -3,4 +3,4 @@ project(RayTracingTutorial)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(RayTracingTutorial main.cpp generals/vec3.h generals/ray.h generals/hittable.h components/sphere.h components/hittable_list.h rttutorial.h generals/camera.h generals/material.h components/lambertian.h components/metal.h components/dieletric.h components/materials_and_shapes.h generals/ppm_image.h raytracer.h components/triangle.h components/moving_sphere.h components/aabb.h components/bvh.h)
+add_executable(RayTracingTutorial main.cpp generals/vec3.h generals/ray.h generals/hittable.h components/hittables/sphere.h components/hittables/hittable_list.h rttutorial.h generals/camera.h generals/material.h components/materials/lambertian.h components/materials/metal.h components/materials/dieletric.h components/components.h generals/ppm_image.h raytracer.h components/hittables/triangle.h components/hittables/moving_sphere.h components/hittables/aabb.h components/hittables/bvh.h generals/texture.h components/textures/solid_texture.h components/textures/checker_texture.h)

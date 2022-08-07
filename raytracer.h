@@ -1,13 +1,10 @@
 #ifndef RAYTRACER_H
 #define RAYTRACER_H
 
-#include "generals/vec3.h"
 #include "rttutorial.h"
 #include "generals/ppm_image.h"
 #include "generals/camera.h"
-#include "components/hittable_list.h"
-#include "components/materials_and_shapes.h"
-#include "components/bvh.h"
+#include "components/components.h"
 #include <iostream>
 
 class raytracer {

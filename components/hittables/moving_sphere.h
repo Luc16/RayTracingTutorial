@@ -3,8 +3,8 @@
 
 #include <utility>
 
-#include "../generals/hittable.h"
-#include "../rttutorial.h"
+#include "../../generals/hittable.h"
+#include "../../rttutorial.h"
 
 class moving_sphere: public hittable {
 public:

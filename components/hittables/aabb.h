@@ -1,8 +1,8 @@
 #ifndef AABB_H
 #define AABB_H
 
-#include "../rttutorial.h"
-#include "../generals/hittable.h"
+#include "../../rttutorial.h"
+#include "../../generals/hittable.h"
 
 class aabb {
 public:
