@@ -14,6 +14,7 @@ public:
             const std::string& imageFile,
             camera& c,
             hittable_list& objs,
+            color background_color,
             double ap,
             int width,
             int samples_per_pxl,
@@ -22,6 +23,7 @@ public:
             cam(c),
             world(objs),
             world_tree(bvh_node(objs, c.time0, c.time1)),
+            background(background_color),
             aspect_ratio(ap),
             image_width(width),
             samples_per_pixel(samples_per_pxl),
@@ -75,21 +77,18 @@ private:
     }
 
     color ray_color(const ray& r, int depth){
-        hit_record rec;
         if (depth <= 0) return {0, 0, 0};
-        if (world_tree.hit(r, 0.001, infinity, rec)) {
-            ray scattered;
-            color attenuation;
-            if (rec.mat_ptr->scatter(r, rec, attenuation, scattered)) {
 
-                return attenuation * ray_color(scattered, depth - 1);
-            }
-            return {0, 0, 0};
-        }
+        hit_record rec;
+        if (!world_tree.hit(r, 0.001, infinity, rec)) return background;
 
-        vec3 unit_direction = unit_vector(r.direction());
-        auto t = 0.5*(unit_direction.y() + 1.0);
-        return (1.0 - t)*color(1.0, 1.0, 1.0) + t*color(0.5, 0.7, 1.0);
+        ray scattered;
+        color attenuation;
+        color emitted = rec.mat_ptr->emitted(rec.u, rec.v, rec.p);
+
+        if (!rec.mat_ptr->scatter(r, rec, attenuation, scattered)) return emitted;
+
+        return emitted + attenuation * ray_color(scattered, depth - 1);
     }
 
 private:
@@ -102,6 +101,7 @@ private:
     const int max_depth;
     hittable_list world;
     bvh_node world_tree;
+    color background;
 };
 
 #endif //RAYTRACER_H

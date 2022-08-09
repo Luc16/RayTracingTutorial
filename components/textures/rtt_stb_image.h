@@ -1,5 +1,5 @@
-#ifndef RTTUTORIAL_STD_IMAGE_H
-#define RTTUTORIAL_STD_IMAGE_H
+#ifndef RTTUTORIAL_STB_IMAGE_H
+#define RTTUTORIAL_STB_IMAGE_H
 
 // Disable pedantic warnings for this external library.
 #ifdef _MSC_VER
@@ -17,4 +17,4 @@
 #endif
 
 
-#endif //RTTUTORIAL_STD_IMAGE_H
+#endif //RTTUTORIAL_STB_IMAGE_H

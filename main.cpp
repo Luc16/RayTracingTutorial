@@ -5,9 +5,10 @@
 #include "generals/camera.h"
 #include "raytracer.h"
 
-hittable_list random_scene(point3& out_lookfrom, point3& out_lookat) {
+hittable_list random_scene(point3& out_lookfrom, point3& out_lookat, color& out_bg) {
     hittable_list world;
 
+    out_bg = color(0.70, 0.80, 1.00);
     out_lookfrom = point3(13,2,3);
     out_lookat = point3(0,0,0);
 
@@ -58,8 +59,9 @@ hittable_list random_scene(point3& out_lookfrom, point3& out_lookat) {
     return world;
 }
 
-hittable_list triangle_scene(point3& out_lookfrom, point3& out_lookat) {
+hittable_list triangle_scene(point3& out_lookfrom, point3& out_lookat, color& out_bg) {
     hittable_list world;
+    out_bg = color(0.70, 0.80, 1.00);
     out_lookfrom = point3(0,0,16);
     out_lookat = point3(0,0,-1);
 
@@ -98,9 +100,9 @@ hittable_list triangle_scene(point3& out_lookfrom, point3& out_lookat) {
     return world;
 }
 
-hittable_list simple_scene(point3& out_lookfrom, point3& out_lookat) {
+hittable_list simple_scene(point3& out_lookfrom, point3& out_lookat, color& out_bg) {
     hittable_list world;
-
+    out_bg = color(0.70, 0.80, 1.00);
     out_lookfrom = point3(13,2,3);
     out_lookat = point3(0,0,0);
 
@@ -116,27 +118,84 @@ hittable_list simple_scene(point3& out_lookfrom, point3& out_lookat) {
 
 };
 
+hittable_list simple_light_scene(point3& out_lookfrom, point3& out_lookat, color& out_bg) {
+
+    out_bg = color(0,0,0);
+    out_lookfrom = point3(26,3,6);
+    out_lookat = point3(0,2,0);
+
+    hittable_list objects;
+
+    auto ground_tex = make_shared<checker_texture>(color(0.2, 0.3, 0.1), color(0.9, 0.9, 0.9));
+    auto pertext = make_shared<noise_texture>(4);
+    objects.add(make_shared<sphere>(point3(0,-1000,0), 1000, make_shared<lambertian>(ground_tex)));
+    objects.add(make_shared<sphere>(point3(0,2,0), 2, make_shared<lambertian>(pertext)));
+
+    auto difflight = make_shared<diffuse_light>(color(4,4,4));
+    objects.add(make_shared<xy_rect>(3, 5, 1, 3, -2, difflight));
+    objects.add(make_shared<sphere>(point3(0,6.5,0), 2, difflight));
+
+    return objects;
+}
+
+hittable_list cornell_box(point3& out_lookfrom, point3& out_lookat, color& out_bg) {
+    hittable_list objects;
+
+    out_bg = color(0,0,0);
+    out_lookfrom = point3(278, 278, -800);
+    out_lookat = point3(278, 278, 0);
+
+    auto red   = make_shared<lambertian>(color(.65, .05, .05));
+    auto white = make_shared<lambertian>(color(.73, .73, .73));
+    auto green = make_shared<lambertian>(color(.12, .45, .15));
+    auto light = make_shared<diffuse_light>(color(30, 30, 30));
+
+    objects.add(make_shared<yz_rect>(0, 555, 0, 555, 555, green));
+    objects.add(make_shared<yz_rect>(0, 555, 0, 555, 0, red));
+    objects.add(make_shared<xz_rect>(213, 343, 227, 332, 554, light));
+    objects.add(make_shared<xz_rect>(0, 555, 0, 555, 0, white));
+    objects.add(make_shared<xz_rect>(0, 555, 0, 555, 555, white));
+    objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white));
+
+    return objects;
+}
+
 int main() {
 
-    // Creating/loading the image
-    const double aspect_ratio = 16.0/9.0;
-    const int image_width = 400;
-    const int samples_per_pixel = 50;
+    // Basic constants
+//    const double aspect_ratio = 16.0/9.0;
+//    const int image_width = 400;
+//    const int samples_per_pixel = 600;
+//    const int max_depth = 50;
+//    const int vfov = 20;
+    const double aspect_ratio = 1;
+    const int image_width = 600;
+    const int samples_per_pixel = 200;
     const int max_depth = 50;
+    const double vfov = 40.0;
 
     // Camera
 
     point3 lookfrom;
     point3 lookat;
-    auto world = simple_scene(lookfrom, lookat);
+    color bg;
+    auto world = cornell_box(lookfrom, lookat, bg);
 
     vec3 vup(0,1,0);
     auto dist_to_focus = 10.0;
     auto aperture = 0.1;
 
-    camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus, 0.0, 1.0);
+    camera cam(lookfrom, lookat, vup, vfov, aspect_ratio, aperture, dist_to_focus, 0.0, 1.0);
 
-    raytracer builder("../image.ppm", cam, world, aspect_ratio, image_width, samples_per_pixel, max_depth);
+    raytracer builder(
+            "../image.ppm",
+            cam,
+            world,
+            bg,
+            aspect_ratio,
+            image_width,
+            samples_per_pixel,
+            max_depth);
 
     builder.create_image();
 }

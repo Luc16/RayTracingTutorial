@@ -3,7 +3,7 @@
 
 #include "../../rttutorial.h"
 #include "../perlin.h"
-#include "rtt_std_image.h"
+#include "rtt_stb_image.h"
 #include "../../generals/texture.h"
 
 
