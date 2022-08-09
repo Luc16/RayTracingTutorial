@@ -8,14 +8,14 @@ class noise_texture: public texture {
 public:
 
     noise_texture() = default;
-    noise_texture(double sc): scale(sc) {}
+    explicit noise_texture(double sc): scale(sc) {}
 
     color value(double u, double v, const point3 &p) const override {
         return color(1,1,1) * 0.5 * (1 + sin(scale*p.z() + 10*noise.turb(p)));
     }
 
 private:
-    double scale;
+    double scale{};
     perlin noise;
 
 };
