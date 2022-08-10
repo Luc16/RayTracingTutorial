@@ -4,6 +4,7 @@
 #include "../../generals/hittable.h"
 
 #include <memory>
+#include <utility>
 #include <vector>
 
 using std::shared_ptr;
@@ -12,10 +13,10 @@ using std::make_shared;
 class hittable_list : public hittable {
 public:
     hittable_list() = default;
-    explicit hittable_list(shared_ptr<hittable> obj) { add(obj); }
+    explicit hittable_list(shared_ptr<hittable> obj) { add(std::move(obj)); }
 
     void clear() { objects.clear(); }
-    void add(shared_ptr<hittable> obj) { objects.push_back(obj); }
+    void add(shared_ptr<hittable> obj) { objects.push_back(std::move(obj)); }
 
     bool hit(const ray &r, double t_min, double t_max, hit_record &rec) const override;
     bool bounding_box(double time0, double time1, aabb &output_box) const override;

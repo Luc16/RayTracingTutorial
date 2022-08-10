@@ -107,6 +107,27 @@ inline vec3 operator/(vec3 v, double t) {
     return (1/t) * v;
 }
 
+inline vec3 rotate_vec_x(vec3 vec, double cos_theta, double sin_theta){
+    vec3 new_vec = vec;
+    new_vec[1] = cos_theta*vec[1] - sin_theta*vec[2];
+    new_vec[2] = sin_theta*vec[1] + cos_theta*vec[2];
+    return new_vec;
+}
+
+inline vec3 rotate_vec_y(vec3 vec, double cos_theta, double sin_theta){
+    vec3 new_vec = vec;
+    new_vec[0] =  cos_theta*vec[0] + sin_theta*vec[2];
+    new_vec[2] = -sin_theta*vec[0] + cos_theta*vec[2];
+    return new_vec;
+}
+
+inline vec3 rotate_vec_z(vec3 vec, double cos_theta, double sin_theta){
+    vec3 new_vec = vec;
+    new_vec[0] = cos_theta*vec[0] - sin_theta*vec[1];
+    new_vec[1] = sin_theta*vec[0] + cos_theta*vec[1];
+    return new_vec;
+}
+
 inline double dot(const vec3 &u, const vec3 &v) {
     return u.e[0] * v.e[0]
            + u.e[1] * v.e[1]

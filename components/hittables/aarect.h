@@ -26,8 +26,6 @@ bool xy_rect::bounding_box(double time0, double time1, aabb &output_box) const {
 }
 
 bool xy_rect::hit(const ray &r, double t_min, double t_max, hit_record &rec) const {
-    if (fabs(r.direction().z()) < 0.0001) return false;
-
     auto t = (k - r.origin().z()) / r.direction().z();
 
     if (t < t_min || t > t_max) return false;
@@ -70,8 +68,6 @@ bool xz_rect::bounding_box(double time0, double time1, aabb &output_box) const {
 }
 
 bool xz_rect::hit(const ray &r, double t_min, double t_max, hit_record &rec) const {
-    if (fabs(r.direction().y()) < 0.0001) return false;
-
     auto t = (k - r.origin().y()) / r.direction().y();
 
     if (t < t_min || t > t_max) return false;
@@ -115,8 +111,6 @@ bool yz_rect::bounding_box(double time0, double time1, aabb &output_box) const {
 }
 
 bool yz_rect::hit(const ray &r, double t_min, double t_max, hit_record &rec) const {
-    if (fabs(r.direction().x()) < 0.0001) return false;
-
     auto t = (k - r.origin().x()) / r.direction().x();
 
     if (t < t_min || t > t_max) return false;

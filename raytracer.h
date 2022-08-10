@@ -22,7 +22,7 @@ public:
             image(imageFile),
             cam(c),
             world(objs),
-            world_tree(bvh_node(objs, c.time0, c.time1)),
+//            world_tree(bvh_node(objs, c.time0, c.time1)),
             background(background_color),
             aspect_ratio(ap),
             image_width(width),
@@ -37,9 +37,9 @@ public:
         auto begin = std::chrono::steady_clock::now();
 
         for (int j = image_height-1; j >= 0; --j) {
-            std::cout << "\rScanlines remaining: " << j << ", " <<
-                      "elapsed time: " << std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - begin).count() <<  "s" << std::flush;
             for (int i = 0; i < image_width; ++i) {
+                std::cout << "\rScanlines remaining: " << j << ", column: " << i << ", " <<
+                          "elapsed time: " << std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - begin).count() <<  "s" << std::flush;
                 color pixel_color(0, 0, 0);
                 for (int k = 0; k < samples_per_pixel; k++){
                     auto u = (i + random_double(-1, 1)) / (image_width-1);
@@ -80,7 +80,7 @@ private:
         if (depth <= 0) return {0, 0, 0};
 
         hit_record rec;
-        if (!world_tree.hit(r, 0.001, infinity, rec)) return background;
+        if (!world.hit(r, 0.001, infinity, rec)) return background;
 
         ray scattered;
         color attenuation;
