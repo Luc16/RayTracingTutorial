@@ -37,9 +37,9 @@ public:
         auto begin = std::chrono::steady_clock::now();
 
         for (int j = image_height-1; j >= 0; --j) {
+            std::cout << "\rScanlines remaining: " << j << ", elapsed time: " <<
+            std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - begin).count() <<  "s" << std::flush;
             for (int i = 0; i < image_width; ++i) {
-                std::cout << "\rScanlines remaining: " << j << ", column: " << i << ", " <<
-                          "elapsed time: " << std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - begin).count() <<  "s" << std::flush;
                 color pixel_color(0, 0, 0);
                 for (int k = 0; k < samples_per_pixel; k++){
                     auto u = (i + random_double(-1, 1)) / (image_width-1);

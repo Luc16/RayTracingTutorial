@@ -197,8 +197,8 @@ hittable_list cornell_smoke(point3& out_lookfrom, point3& out_lookat, color& out
     box2 = make_shared<rotate_y>(box2, -18);
     box2 = make_shared<translate>(box2, vec3(130,0,65));
 
-    objects.add(make_shared<constant_medium>(box1, 0.05, color(0,0,0)));
-    objects.add(make_shared<constant_medium>(box2, 0.05, color(1,1,1)));
+    objects.add(make_shared<constant_medium>(box1, 0.01, color(0,0,0)));
+    objects.add(make_shared<constant_medium>(box2, 0.01, color(1,1,1)));
 
     return objects;
 }
@@ -274,23 +274,23 @@ hittable_list final_scene(point3& out_lookfrom, point3& out_lookat, color& out_b
 int main() {
 
     // Basic constants
-//    const double aspect_ratio = 16.0/9.0;
-//    const int image_width = 400;
-//    const int samples_per_pixel = 600;
-//    const int max_depth = 50;
-//    const int vfov = 20;
-    const double aspect_ratio = 1;
-    const int image_width = 800;
-    const int samples_per_pixel = 10000;
+    const double aspect_ratio = 16.0/9.0;
+    const int image_width = 600;
+    const int samples_per_pixel = 600;
     const int max_depth = 50;
-    const double vfov = 40.0;
+    const int vfov = 20;
+//    const double aspect_ratio = 1;
+//    const int image_width = 600;
+//    const int samples_per_pixel = 200;
+//    const int max_depth = 50;
+//    const double vfov = 40.0;
 
     // Camera
 
     point3 lookfrom;
     point3 lookat;
     color bg;
-    auto world = final_scene(lookfrom, lookat, bg);
+    auto world = simple_light_scene(lookfrom, lookat, bg);
 
     vec3 vup(0,1,0);
     auto dist_to_focus = 10.0;

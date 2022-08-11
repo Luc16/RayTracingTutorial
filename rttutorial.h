@@ -32,22 +32,22 @@ inline double degrees_to_radians(double degrees) {
     return degrees * pi / 180.0;
 }
 
-inline double random_double(double min, double max) {
-        static std::random_device rd;
-        static std::mt19937 gen(rd());
-        static std::uniform_real_distribution<double> dis(min, max);
-        return dis(gen);
+inline double random_double(){
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_real_distribution<double> dis_double;
+    return dis_double(gen);
 }
 
-inline double random_double(){
-    return random_double(0.0, 1.0);
+inline double random_double(double min, double max) {
+    return min + random_double()*(max - min);
 }
 
 inline int random_int(int min, int max) {
     static std::random_device rd;
     static std::mt19937 gen(rd());
-    static std::uniform_int_distribution<int> dis(min, max);
-    return dis(gen);
+    static std::uniform_int_distribution<int> dis_int(min, max);
+    return dis_int(gen);
 }
 
 

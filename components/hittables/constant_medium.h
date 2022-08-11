@@ -1,6 +1,8 @@
 #ifndef CONSTANT_MEDIUM_H
 #define CONSTANT_MEDIUM_H
 
+#include <utility>
+
 #include "../../rttutorial.h"
 #include "../../generals/hittable.h"
 #include "../materials/isotropic.h"
@@ -41,10 +43,13 @@ bool constant_medium::hit(const ray &r, double t_min, double t_max, hit_record &
     if (rec1.t < 0) rec1.t = 0;
 
     const auto ray_length = r.direction().length();
-    const auto distance_inside_boundary = (rec2.t - rec1.t)/ray_length;
+    const auto distance_inside_boundary = (rec2.t - rec1.t) * ray_length;
     const auto hit_distance = negative_inv_density * log(random_double());
 
     if (hit_distance > distance_inside_boundary) return false;
+
+    rec.t = rec1.t + hit_distance / ray_length;
+    rec.p = r.at(rec.t);
 
     if (debugging) {
         std::cout << "hit_distance = " <<  hit_distance << '\n'
@@ -56,7 +61,7 @@ bool constant_medium::hit(const ray &r, double t_min, double t_max, hit_record &
     rec.front_face = true;
     rec.mat_ptr = phase_function;
 
-
+    return true;
 }
 
 bool constant_medium::bounding_box(double time0, double time1, aabb &output_box) const {
