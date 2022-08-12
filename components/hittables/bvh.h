@@ -30,7 +30,6 @@ bool bvh_node::hit(const ray &r, double t_min, double t_max, hit_record &rec) co
 
 bool bvh_node::bounding_box(double time0, double time1, aabb &output_box) const {
     output_box = box;
-
     return true;
 }
 
@@ -67,9 +66,7 @@ bvh_node::bvh_node(const std::vector<shared_ptr<hittable>> &src_objects, size_t 
 
     size_t obj_span = end - start;
 
-    if (obj_span == 1) {
-        left = right = objects[start];
-    } else if (obj_span == 2) {
+    if (obj_span == 2) {
         left = objects[start];
         right = objects[start + 1];
     } else {
@@ -77,8 +74,8 @@ bvh_node::bvh_node(const std::vector<shared_ptr<hittable>> &src_objects, size_t 
 
         auto mid = start + obj_span / 2;
 
-        left = make_shared<bvh_node>(objects, start, mid, time0, time1);
-        right = make_shared<bvh_node>(objects, mid, end, time0, time1);
+        left = (mid - start == 1) ? objects[start] : make_shared<bvh_node>(objects, start, mid, time0, time1);
+        right = (end - mid == 1) ? objects[mid] : make_shared<bvh_node>(objects, mid, end, time0, time1);
 
     }
 

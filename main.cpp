@@ -120,20 +120,23 @@ hittable_list simple_scene(point3& out_lookfrom, point3& out_lookat, color& out_
 
 hittable_list simple_light_scene(point3& out_lookfrom, point3& out_lookat, color& out_bg) {
 
-    out_bg = color(0,0,0);
+    out_bg = color(0.1,0.1,0.1);
     out_lookfrom = point3(26,3,6);
     out_lookat = point3(0,2,0);
 
     hittable_list objects;
 
     auto ground_tex = make_shared<checker_texture>(color(0.2, 0.3, 0.1), color(0.9, 0.9, 0.9));
-    auto pertext = make_shared<noise_texture>(4);
     objects.add(make_shared<sphere>(point3(0,-1000,0), 1000, make_shared<lambertian>(ground_tex)));
-    objects.add(make_shared<sphere>(point3(0,2,0), 2, make_shared<lambertian>(pertext)));
+    auto pertext = make_shared<noise_texture>(4);
+    objects.add(make_shared<sphere>(point3(-5,2,2), 2, make_shared<lambertian>(pertext)));
+
+    auto earth_texture = make_shared<image_texture>("../earthmap.jpg");
+    objects.add(make_shared<sphere>(point3(0,2,0), 2, make_shared<lambertian>(earth_texture)));
 
     auto difflight = make_shared<diffuse_light>(color(4,4,4));
     objects.add(make_shared<xy_rect>(3, 5, 1, 3, -2, difflight));
-    objects.add(make_shared<sphere>(point3(0,6.5,0), 2, difflight));
+    objects.add(make_shared<sphere>(point3(-3,6.5,0), 2, difflight));
 
     return objects;
 }
@@ -276,7 +279,7 @@ int main() {
     // Basic constants
     const double aspect_ratio = 16.0/9.0;
     const int image_width = 600;
-    const int samples_per_pixel = 600;
+    const int samples_per_pixel = 2000;
     const int max_depth = 50;
     const int vfov = 20;
 //    const double aspect_ratio = 1;

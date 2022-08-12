@@ -22,7 +22,7 @@ public:
             image(imageFile),
             cam(c),
             world(objs),
-//            world_tree(bvh_node(objs, c.time0, c.time1)),
+            world_tree(bvh_node(objs, c.time0, c.time1)),
             background(background_color),
             aspect_ratio(ap),
             image_width(width),
@@ -80,7 +80,7 @@ private:
         if (depth <= 0) return {0, 0, 0};
 
         hit_record rec;
-        if (!world.hit(r, 0.001, infinity, rec)) return background;
+        if (!world_tree.hit(r, 0.001, infinity, rec)) return background;
 
         ray scattered;
         color attenuation;

@@ -55,6 +55,8 @@ bool triangle::hit(const ray &r, double t_min, double t_max, hit_record &rec) co
 
     if (u.dot(v) < 0.0 || u.dot(w) < 0.0) return false;
 
+    //TODO set u and v
+
     rec.t = t;
     rec.p = intersection;
     rec.set_face_normal(r, unit_vector(normal));
