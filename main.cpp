@@ -279,7 +279,7 @@ int main() {
     // Basic constants
     const double aspect_ratio = 16.0/9.0;
     const int image_width = 600;
-    const int samples_per_pixel = 2000;
+    const int samples_per_pixel = 200;
     const int max_depth = 50;
     const int vfov = 20;
 //    const double aspect_ratio = 1;
@@ -297,7 +297,7 @@ int main() {
 
     vec3 vup(0,1,0);
     auto dist_to_focus = 10.0;
-    auto aperture = 0.1;
+    auto aperture = 0.0;
 
     camera cam(lookfrom, lookat, vup, vfov, aspect_ratio, aperture, dist_to_focus, 0.0, 1.0);
 

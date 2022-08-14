@@ -42,8 +42,8 @@ public:
             for (int i = 0; i < image_width; ++i) {
                 color pixel_color(0, 0, 0);
                 for (int k = 0; k < samples_per_pixel; k++){
-                    auto u = (i + random_double(-1, 1)) / (image_width-1);
-                    auto v = (j + random_double(-1, 1)) / (image_height-1);
+                    auto u = (i + random_double()) / (image_width-1); // TODO random double so
+                    auto v = (j + random_double()) / (image_height-1);
 
                     ray r = cam.get_ray(u, v);
                     pixel_color += ray_color(r, max_depth);
@@ -70,7 +70,7 @@ private:
         g = sqrt(scale * g);
         b = sqrt(scale * b);
 
-        // Write the translated [0,255] value of each color component.
+        // Write the translatesimple_light_scened [0,255] value of each color component.
         image << static_cast<int>(256 * clamp(r, 0.0, 0.999)) << ' '
             << static_cast<int>(256 * clamp(g, 0.0, 0.999)) << ' '
             << static_cast<int>(256 * clamp(b, 0.0, 0.999)) << '\n';
