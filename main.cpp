@@ -111,7 +111,9 @@ hittable_list simple_scene(point3& out_lookfrom, point3& out_lookat, color& out_
 
     auto earth_texture = make_shared<image_texture>("../earthmap.jpg");
     auto earth_surface = make_shared<lambertian>(earth_texture);
-    auto globe = make_shared<sphere>(point3(0,0,0), 2, earth_surface);
+
+    auto material3 = make_shared<metal>(earth_texture, 0.0);
+    auto globe = make_shared<sphere>(point3(0,0,0), 2, material3);
     world.add(globe);
 
     return world;
@@ -293,7 +295,7 @@ int main() {
     point3 lookfrom;
     point3 lookat;
     color bg;
-    auto world = simple_light_scene(lookfrom, lookat, bg);
+    auto world = simple_scene(lookfrom, lookat, bg);
 
     vec3 vup(0,1,0);
     auto dist_to_focus = 10.0;
